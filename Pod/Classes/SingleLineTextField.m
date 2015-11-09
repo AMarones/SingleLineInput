@@ -10,29 +10,31 @@
 #define kSpaceToPlaceHolder 22
 
 
-@implementation SingleLineTextField{
-    CGRect frame;
-    UIView *lineView;
-    NSString *placeHolderString;
-    UILabel *placeHolderLabel;
-    UIColor *lineSelectedColor;
-    UIColor *lineNormalColor;
-    UIColor *lineDisabledColor;
-    UIColor *inputTextColor;
-    UIColor *placeHolderColor;
-    double animationDuration;
-    CGRect aFrame;
-    CGRect framePlaceHolder;
-    int offSetSizeTextField;
-    UIFont *inputFont;
-    UIFont *placeHolderFont;
-    UIFont *placeHolderFontFloat;
-    BOOL createdPlaceHolder;
+@implementation SingleLineTextField {
+    CGRect      frame;
+    UIView      *lineView;
+    NSString    *placeHolderString;
+    UILabel     *placeHolderLabel;
+    UIColor     *lineSelectedColor;
+    UIColor     *lineNormalColor;
+    UIColor     *lineDisabledColor;
+    UIColor     *inputTextColor;
+    UIColor     *placeHolderColor;
+    double      animationDuration;
+    CGRect      aFrame;
+    CGRect      framePlaceHolder;
+    int         offSetSizeTextField;
+    UIFont      *inputFont;
+    UIFont      *placeHolderFont;
+    UIFont      *placeHolderFontFloat;
+    BOOL        createdPlaceHolder;
 }
+
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
+    
     if (self) {
         //frame = self.bounds;
         offSetSizeTextField = 14;
@@ -52,13 +54,15 @@
         animationDuration = 0.1;
         aFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height + offSetSizeTextField);
     }
+    
     return self;
 }
 
-- (void) layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     lineView.frame = CGRectMake(0,  self.frame.size.height - 10  , self.frame.size.width, 1);
+    
     if (!createdPlaceHolder) {
         self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, self.frame.size.height + offSetSizeTextField);
         placeHolderLabel.frame = CGRectMake(0, (self.frame.size.height/2) - kSpaceToPlaceHolder, self.frame.size.width, self.frame.size.height);
@@ -66,13 +70,15 @@
     }
 }
 
--(void) createLineInput{
+- (void)createLineInput
+{
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height + kSpaceToLine , frame.size.width, 1)];
     lineView.backgroundColor = lineNormalColor;
     [self addSubview:lineView];
 }
 
--(void) createPlaceHolderInput{
+- (void)createPlaceHolderInput
+{
     placeHolderLabel = [[UILabel alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.y + kSpaceToPlaceHolder, frame.size.width, frame.size.height)];
     placeHolderLabel.text = placeHolderString;
     placeHolderLabel.font = placeHolderFont;
@@ -82,10 +88,15 @@
     [self addSubview:placeHolderLabel];
 }
 
+
+
 #pragma mark UITextFieldDelegate
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
     [UIView animateWithDuration:animationDuration animations:^(void){
         lineView.backgroundColor = lineSelectedColor;
+       
         if (textField.text.length == 0) {
             placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y-kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
             placeHolderLabel.font = placeHolderFontFloat;
@@ -95,9 +106,11 @@
     }];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField{
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
     [UIView animateWithDuration:animationDuration animations:^(void){
         lineView.backgroundColor = lineNormalColor;
+       
         if (textField.text.length == 0) {
             placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y+kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
             placeHolderLabel.font = placeHolderFont;
@@ -105,7 +118,8 @@
     }];
 }
 
--(void) setEnabled:(BOOL)enabled{
+- (void)setEnabled:(BOOL)enabled
+{
     super.enabled = enabled;
     if (!enabled) {
         lineView.hidden = YES;
@@ -127,30 +141,39 @@
     return CGRectInset( bounds, 0 ,0);
 }
 
+
+
 #pragma mark - Override default properties
--(void)setLineDisabledColor:(UIColor *)aLineDisabledColor{
+
+- (void)setLineDisabledColor:(UIColor *)aLineDisabledColor
+{
     lineDisabledColor = aLineDisabledColor;
 }
 
--(void) setLineNormalColor:(UIColor *)aLineNormalColor{
+- (void)setLineNormalColor:(UIColor *)aLineNormalColor
+{
     lineNormalColor = aLineNormalColor;
 }
 
--(void) setLineSelectedColor:(UIColor *)aLineSelectedColor{
+- (void)setLineSelectedColor:(UIColor *)aLineSelectedColor
+{
     lineSelectedColor = aLineSelectedColor;
 }
 
--(void) setInputTextColor:(UIColor *)anInputTextColor{
+- (void)setInputTextColor:(UIColor *)anInputTextColor
+{
     inputTextColor = anInputTextColor;
     self.textColor = inputTextColor;
 }
 
--(void) setInputPlaceHolderColor:(UIColor *)anInputPlaceHolderColor{
+- (void)setInputPlaceHolderColor:(UIColor *)anInputPlaceHolderColor
+{
     placeHolderColor = anInputPlaceHolderColor;
     placeHolderLabel.textColor = placeHolderColor;
 }
 
--(void) updateText:(NSString *) aText{
+- (void)updateText:(NSString *) aText
+{
     if (aText.length > 0) {
         placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y-kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
         placeHolderLabel.font = placeHolderFont;
@@ -159,12 +182,14 @@
     self.text = aText;
 }
 
--(void) setInputFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR{
+- (void)setInputFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR
+{
     inputFont = font;
     self.font = inputFont;
 }
 
--(void) setPlaceHolderFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR{
+- (void)setPlaceHolderFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR
+{
     placeHolderFont = font;
     placeHolderFontFloat = [UIFont fontWithName:placeHolderFont.fontName size:14];
     placeHolderLabel.font = placeHolderFont;
@@ -175,10 +200,14 @@
 }
 
 
+
 #pragma UITextFieldDelegate
-- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
     [textField resignFirstResponder];
     return YES;
 }
+
 
 @end
