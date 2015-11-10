@@ -5,9 +5,9 @@
 //  Created by Diogo Maximo on 17/10/14.
 
 #import "SingleLineTextField.h"
-#define kAnimationOffSet 23
-#define kSpaceToLine 2
-#define kSpaceToPlaceHolder 22
+#define kAnimationOffSet      23
+#define kSpaceToLine          2
+#define kSpaceToPlaceHolder   22
 
 
 @implementation SingleLineTextField {
@@ -28,6 +28,7 @@
     UIFont      *placeHolderFont;
     UIFont      *placeHolderFontFloat;
     BOOL        createdPlaceHolder;
+    BOOL        enablePlaceHolderFloater;
 }
 
 
@@ -45,8 +46,12 @@
         self.delegate = self;
         self.textColor = inputTextColor;
         [self addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
-        placeHolderString = self.placeholder;
-        self.placeholder = NULL;
+        
+        if (enablePlaceHolderFloater) {
+            placeHolderString = self.placeholder;
+            self.placeholder = nil;
+        }
+        
         self.font = [UIFont systemFontOfSize:13];
         [self createLineInput];
         [self createPlaceHolderInput];
@@ -74,6 +79,7 @@
 {
     lineView = [[UIView alloc] initWithFrame:CGRectMake(0, frame.size.height + kSpaceToLine , frame.size.width, 1)];
     lineView.backgroundColor = lineNormalColor;
+    
     [self addSubview:lineView];
 }
 
@@ -97,7 +103,7 @@
     [UIView animateWithDuration:animationDuration animations:^(void){
         lineView.backgroundColor = lineSelectedColor;
        
-        if (textField.text.length == 0) {
+        if (textField.text.length == 0 && enablePlaceHolderFloater) {
             placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y-kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
             placeHolderLabel.font = placeHolderFontFloat;
             
@@ -110,7 +116,7 @@
 {
     [UIView animateWithDuration:animationDuration animations:^(void){
         lineView.backgroundColor = lineNormalColor;
-       
+        
         if (textField.text.length == 0) {
             placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y+kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
             placeHolderLabel.font = placeHolderFont;
@@ -174,7 +180,7 @@
 
 - (void)updateText:(NSString *) aText
 {
-    if (aText.length > 0) {
+    if (aText.length > 0 && enablePlaceHolderFloater) {
         placeHolderLabel.frame = CGRectMake(placeHolderLabel.frame.origin.x, placeHolderLabel.frame.origin.y-kAnimationOffSet, placeHolderLabel.frame.size.width, placeHolderLabel.frame.size.height);
         placeHolderLabel.font = placeHolderFont;
     }
@@ -194,9 +200,14 @@
     placeHolderFontFloat = [UIFont fontWithName:placeHolderFont.fontName size:14];
     placeHolderLabel.font = placeHolderFont;
     
-    if (self.text.length > 0 ){
+    if (self.text.length > 0 ) {
         placeHolderLabel.font = placeHolderFontFloat;
     }
+}
+
+- (void)setPlaceHolderFloaterEnable:(BOOL)enable
+{
+    enablePlaceHolderFloater = enable;
 }
 
 

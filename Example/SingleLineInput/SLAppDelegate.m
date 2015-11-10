@@ -19,6 +19,8 @@
     [[SingleLineTextField appearance] setInputPlaceHolderColor:[UIColor colorWithRed:0.65 green:0.65 blue:0.65 alpha:1]];
     [[SingleLineTextField appearance] setInputFont:[UIFont boldSystemFontOfSize:15]];
     [[SingleLineTextField appearance] setPlaceHolderFont:[UIFont boldSystemFontOfSize:13]];
+    [[SingleLineTextField appearance] setPlaceHolderFloaterEnable:NO];
+    
     return YES;
 }
 							

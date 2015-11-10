@@ -8,7 +8,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface SingleLineTextField : UITextField<UITextFieldDelegate> {
+@interface SingleLineTextField : UITextField <UITextFieldDelegate> {
     
 }
 
@@ -20,6 +20,7 @@
 - (void)setPlaceHolderFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR;
 - (void)setInputFont:(UIFont *)font NS_AVAILABLE_IOS(7_0) UI_APPEARANCE_SELECTOR;
 - (void)updateText:(NSString *) aText;
+- (void)setPlaceHolderFloaterEnable:(BOOL)enable;
 
 
 @end
