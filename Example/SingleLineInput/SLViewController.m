@@ -26,10 +26,9 @@
     [_cityInput setLineSelectedColor:[UIColor greenColor]];
 }
 
-- (void)didReceiveMemoryWarning
+-(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+    [self.view endEditing:YES];
 }
 
 
